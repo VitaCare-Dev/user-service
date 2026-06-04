@@ -10,6 +10,9 @@ import com.grupo10.user_service.dto.UserRequestDto;
 import com.grupo10.user_service.dto.UserResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 @RestController
 @RequestMapping("/api/users")
@@ -35,6 +38,10 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
+        UserResponseDto user = userService.getUserById(id);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 
 }
