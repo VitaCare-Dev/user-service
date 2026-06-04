@@ -6,10 +6,10 @@ import lombok.Data;
 @Data
 public class UserResponseDto {
 
-    private int id;
+    private Long id;
     private String correo;
     private String rol;
-    private boolean estado;
+    private int activo;
     private LocalDateTime createdAt;
 
 }

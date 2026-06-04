@@ -21,7 +21,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_usuario")
-    private int id;
+    private Long id;
     
     @Column(name = "email")
     private String correo;
@@ -32,8 +32,8 @@ public class User {
     @Column(name = "rol")
     private String rol;
 
-    @Column(name = "estado")
-    private boolean estado;
+    @Column(name = "activo")
+    private int activo;
 
     @Column(name = "fecha_creacion")
     private LocalDateTime createdAt;
