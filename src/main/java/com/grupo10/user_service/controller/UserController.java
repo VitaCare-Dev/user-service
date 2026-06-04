@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.grupo10.user_service.service.UserService;
+import com.grupo10.user_service.dto.LoginRequestDto;
 import com.grupo10.user_service.dto.UserRequestDto;
 import com.grupo10.user_service.dto.UserResponseDto;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,14 @@ public class UserController {
     public ResponseEntity<UserResponseDto> createUser(@RequestBody UserRequestDto request) {
         UserResponseDto createdUser = userService.createUser(request);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserResponseDto> login(@RequestBody LoginRequestDto request) {
+        
+        UserResponseDto response = userService.login(request);
+        
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 
