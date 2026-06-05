@@ -9,6 +9,7 @@ import com.grupo10.user_service.dto.UserRequestDto;
 import com.grupo10.user_service.dto.UserResponseDto;
 import com.grupo10.user_service.exception.InvalidCredentialsException;
 import com.grupo10.user_service.exception.ResourceNotFoundException;
+import com.grupo10.user_service.dto.ChangePasswordRequestDto;
 
 import java.time.LocalDateTime;
 
@@ -67,6 +68,20 @@ public class UserService {
         response.setActivo(usuario.getActivo());
         response.setCreatedAt(usuario.getCreatedAt());
         return response;
+    }
+
+    public void cambiarPassword(Long id, ChangePasswordRequestDto request){
+        User usuario  = userRepository.findById(id)
+        .orElseThrow(()-> new ResourceNotFoundException("Usuario no encontrado"));
+        if (!passwordEncoder.matches(request.getCurrentPassword(), usuario.getPassword())) {
+            throw new InvalidCredentialsException("Contraseña actual incorrecta");
+        }
+        if(passwordEncoder.matches(request.getNewPassword(), usuario.getPassword())){
+            throw new InvalidCredentialsException("La nueva contraseña no puede ser igual a la actual");
+        }
+
+        usuario.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(usuario);
     }
     
 }
