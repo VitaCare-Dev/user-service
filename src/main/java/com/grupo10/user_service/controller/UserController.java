@@ -52,5 +52,6 @@ public class UserController {
         userService.cambiarPassword(id, request);
         return new ResponseEntity<>("Contraseña actualizada exitosamente", HttpStatus.OK);
     }
+    
 
 }
