@@ -3,14 +3,11 @@ package com.grupo10.user_service.config;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,15 +39,5 @@ class SecurityConfigTest {
         verify(registration).allowedHeaders("*");
         verify(registration).allowCredentials(false);
         verify(registration).maxAge(3600);
-    }
-
-    @Test
-    void passwordEncoderRetornaInstanciaDeBCryptPasswordEncoder() {
-        SecurityConfig securityConfig = new SecurityConfig();
-
-        PasswordEncoder encoder = securityConfig.passwordEncoder();
-
-        assertNotNull(encoder);
-        assertTrue(encoder instanceof BCryptPasswordEncoder);
     }
 }

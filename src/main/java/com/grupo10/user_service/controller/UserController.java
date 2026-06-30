@@ -5,23 +5,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.grupo10.user_service.service.UserService;
-import com.grupo10.user_service.dto.ChangePasswordRequestDto;
-import com.grupo10.user_service.dto.LoginRequestDto;
 import com.grupo10.user_service.dto.UserRequestDto;
 import com.grupo10.user_service.dto.UserResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 
 
 
 /**
  * Controlador REST para la gestión de usuarios.
  *
- * <p>Expone los endpoints bajo {@code /api/users} para registrar usuarios,
- * autenticarlos, consultar su información y actualizar su contraseña.</p>
+ * <p>Expone los endpoints bajo {@code /api/users} para sincronizar usuarios
+ * autenticados en Firebase con {@code tb_usuario} y consultar su información.</p>
  */
 @RestController
 @RequestMapping("/api/users")
@@ -39,29 +36,15 @@ public class UserController {
     }
 
     /**
-     * Registra un nuevo usuario en el sistema.
+     * Sincroniza un usuario autenticado en Firebase con {@code tb_usuario}.
      *
-     * @param request datos del usuario a registrar (correo, contraseña y rol)
+     * @param request datos del usuario a sincronizar (correo, UID de Firebase y rol)
      * @return {@link UserResponseDto} con los datos del usuario creado y estado HTTP 201
      */
     @PostMapping("/register")
     public ResponseEntity<UserResponseDto> createUser(@RequestBody UserRequestDto request) {
         UserResponseDto createdUser = userService.createUser(request);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
-    }
-
-    /**
-     * Autentica un usuario mediante correo y contraseña.
-     *
-     * @param request credenciales del usuario (correo y contraseña)
-     * @return {@link UserResponseDto} con los datos del usuario autenticado y estado HTTP 200
-     */
-    @PostMapping("/login")
-    public ResponseEntity<UserResponseDto> login(@RequestBody LoginRequestDto request) {
-
-        UserResponseDto response = userService.login(request);
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
@@ -77,19 +60,15 @@ public class UserController {
     }
 
     /**
-     * Actualiza la contraseña de un usuario.
+     * Obtiene los datos de un usuario por su UID de Firebase Authentication.
      *
-     * @param id      identificador único del usuario
-     * @param request objeto con la contraseña actual y la nueva contraseña
-     * @return mensaje de confirmación y estado HTTP 200
+     * @param firebaseUid UID de Firebase del usuario
+     * @return {@link UserResponseDto} con los datos del usuario y estado HTTP 200
      */
-    @PutMapping("/{id}/password")
-    public ResponseEntity<String> cambiarPassword(@PathVariable Long id, @RequestBody ChangePasswordRequestDto request) {
-        userService.cambiarPassword(id, request);
-        return new ResponseEntity<>("Contraseña actualizada exitosamente", HttpStatus.OK);
+    @GetMapping("/firebase/{firebaseUid}")
+    public ResponseEntity<UserResponseDto> getUserByFirebaseUid(@PathVariable String firebaseUid) {
+        UserResponseDto user = userService.getUserByFirebaseUid(firebaseUid);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
-    
-
-    
 
 }

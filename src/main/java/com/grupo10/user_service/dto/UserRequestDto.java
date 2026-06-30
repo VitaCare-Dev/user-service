@@ -3,10 +3,10 @@ package com.grupo10.user_service.dto;
 import lombok.Data;
 
 /**
- * DTO de solicitud para el registro de un nuevo usuario.
+ * DTO de solicitud para sincronizar un usuario creado en Firebase Authentication.
  *
- * <p>Transporta los datos necesarios para crear una cuenta: correo electrónico,
- * contraseña en texto plano (se cifrará en la capa de servicio) y rol asignado.</p>
+ * <p>Transporta los datos necesarios para crear la fila correspondiente en
+ * {@code tb_usuario}: correo electrónico, UID de Firebase y rol asignado.</p>
  */
 @Data
 public class UserRequestDto {
@@ -14,8 +14,8 @@ public class UserRequestDto {
     /** Dirección de correo electrónico del usuario. */
     private String correo;
 
-    /** Contraseña en texto plano; se almacenará cifrada con BCrypt. */
-    private String password;
+    /** Identificador único del usuario en Firebase Authentication. */
+    private String firebaseUid;
 
     /** Rol del usuario dentro del sistema (p. ej. {@code ADMIN}, {@code USER}). */
     private String rol;

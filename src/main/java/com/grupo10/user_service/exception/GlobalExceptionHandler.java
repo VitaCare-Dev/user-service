@@ -49,19 +49,4 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 
-    /**
-     * Maneja excepciones de credenciales inválidas y devuelve HTTP 401.
-     *
-     * @param ex excepción capturada con el mensaje descriptivo del fallo de autenticación
-     * @return respuesta con {@link ErrorResponseDto} y estado 401 UNAUTHORIZED
-     */
-    @ExceptionHandler(InvalidCredentialsException.class)
-    public ResponseEntity<ErrorResponseDto> handleInvalidCredentialsException(InvalidCredentialsException ex) {
-        ErrorResponseDto error = new ErrorResponseDto();
-        error.setMessage(ex.getMessage());
-        error.setStatus(HttpStatus.UNAUTHORIZED.value());
-        error.setTimestamp(LocalDateTime.now());
-        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-    }
-
 }

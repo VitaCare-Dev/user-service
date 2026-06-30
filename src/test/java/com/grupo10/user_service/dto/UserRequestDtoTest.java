@@ -11,17 +11,17 @@ class UserRequestDtoTest {
         // Given
         UserRequestDto dto = new UserRequestDto();
         String correo = "test@example.com";
-        String password = "password123";
+        String firebaseUid = "firebase-uid-123";
         String rol = "USER";
 
         // When
         dto.setCorreo(correo);
-        dto.setPassword(password);
+        dto.setFirebaseUid(firebaseUid);
         dto.setRol(rol);
 
         // Then
         assertEquals(correo, dto.getCorreo());
-        assertEquals(password, dto.getPassword());
+        assertEquals(firebaseUid, dto.getFirebaseUid());
         assertEquals(rol, dto.getRol());
     }
 
@@ -30,12 +30,12 @@ class UserRequestDtoTest {
         // Given
         UserRequestDto dto1 = new UserRequestDto();
         dto1.setCorreo("test@example.com");
-        dto1.setPassword("password123");
+        dto1.setFirebaseUid("firebase-uid-123");
         dto1.setRol("USER");
 
         UserRequestDto dto2 = new UserRequestDto();
         dto2.setCorreo("test@example.com");
-        dto2.setPassword("password123");
+        dto2.setFirebaseUid("firebase-uid-123");
         dto2.setRol("USER");
 
         // When & Then
@@ -48,11 +48,11 @@ class UserRequestDtoTest {
         // Given
         UserRequestDto dto1 = new UserRequestDto();
         dto1.setCorreo("test@example.com");
-        dto1.setPassword("password123");
+        dto1.setFirebaseUid("firebase-uid-123");
 
         UserRequestDto dto2 = new UserRequestDto();
         dto2.setCorreo("test@example.com");
-        dto2.setPassword("password123");
+        dto2.setFirebaseUid("firebase-uid-123");
 
         // When & Then
         assertEquals(dto1.hashCode(), dto2.hashCode());
@@ -63,7 +63,7 @@ class UserRequestDtoTest {
         // Given
         UserRequestDto dto = new UserRequestDto();
         dto.setCorreo("test@example.com");
-        dto.setPassword("password123");
+        dto.setFirebaseUid("firebase-uid-123");
 
         // When
         String toString = dto.toString();

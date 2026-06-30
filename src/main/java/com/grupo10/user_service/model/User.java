@@ -15,8 +15,10 @@ import jakarta.persistence.Id;
 /**
  * Entidad JPA que representa a un usuario en la tabla {@code tb_usuario}.
  *
- * <p>Almacena las credenciales, el rol y el estado de activación del usuario.
- * La contraseña se guarda como hash BCrypt en la columna {@code password_hash}.</p>
+ * <p>Almacena la referencia al usuario de Firebase Authentication, el rol y
+ * el estado de activación. La autenticación (correo y contraseña) la maneja
+ * Firebase; esta tabla solo sincroniza el {@code firebase_uid} con los datos
+ * propios del dominio.</p>
  */
 @Data
 @Entity
@@ -33,9 +35,9 @@ public class User {
     @Column(name = "email")
     private String correo;
 
-    /** Hash BCrypt de la contraseña del usuario. */
-    @Column(name = "password_hash")
-    private String password;
+    /** Identificador único del usuario en Firebase Authentication. */
+    @Column(name = "firebase_uid")
+    private String firebaseUid;
 
     /** Rol asignado al usuario dentro del sistema (p. ej. {@code ADMIN}, {@code USER}). */
     @Column(name = "rol")

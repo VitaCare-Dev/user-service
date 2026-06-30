@@ -20,4 +20,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
      */
     Optional<User> findByCorreo(String correo);
 
+    /**
+     * Busca un usuario por su identificador de Firebase Authentication.
+     *
+     * @param firebaseUid UID de Firebase a buscar
+     * @return un {@link Optional} con el usuario si existe, o vacío si no se encuentra
+     */
+    Optional<User> findByFirebaseUid(String firebaseUid);
+
 }

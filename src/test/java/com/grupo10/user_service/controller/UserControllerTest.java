@@ -1,7 +1,5 @@
 package com.grupo10.user_service.controller;
 
-import com.grupo10.user_service.dto.ChangePasswordRequestDto;
-import com.grupo10.user_service.dto.LoginRequestDto;
 import com.grupo10.user_service.dto.UserRequestDto;
 import com.grupo10.user_service.dto.UserResponseDto;
 import com.grupo10.user_service.service.UserService;
@@ -17,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -36,14 +33,12 @@ class UserControllerTest {
 
     private UserRequestDto userRequestDto;
     private UserResponseDto userResponseDto;
-    private LoginRequestDto loginRequestDto;
-    private ChangePasswordRequestDto changePasswordRequestDto;
 
     @BeforeEach
     void setUp() {
         userRequestDto = new UserRequestDto();
         userRequestDto.setCorreo("test@example.com");
-        userRequestDto.setPassword("password123");
+        userRequestDto.setFirebaseUid("firebase-uid-123");
         userRequestDto.setRol("USER");
 
         userResponseDto = new UserResponseDto();
@@ -52,14 +47,6 @@ class UserControllerTest {
         userResponseDto.setRol("USER");
         userResponseDto.setActivo(1);
         userResponseDto.setCreatedAt(LocalDateTime.now());
-
-        loginRequestDto = new LoginRequestDto();
-        loginRequestDto.setCorreo("test@example.com");
-        loginRequestDto.setPassword("password123");
-
-        changePasswordRequestDto = new ChangePasswordRequestDto();
-        changePasswordRequestDto.setCurrentPassword("password123");
-        changePasswordRequestDto.setNewPassword("newPassword123");
     }
 
     @Test
@@ -81,24 +68,6 @@ class UserControllerTest {
     }
 
     @Test
-    void login_ShouldReturnUserResponseDto() throws Exception {
-        // Given
-        when(userService.login(any(LoginRequestDto.class))).thenReturn(userResponseDto);
-
-        // When & Then
-        mockMvc.perform(post("/api/users/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(loginRequestDto)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.correo").value("test@example.com"))
-                .andExpect(jsonPath("$.rol").value("USER"))
-                .andExpect(jsonPath("$.activo").value(1));
-
-        verify(userService, times(1)).login(any(LoginRequestDto.class));
-    }
-
-    @Test
     void getUserById_ShouldReturnUser() throws Exception {
         // Given
         when(userService.getUserById(1L)).thenReturn(userResponseDto);
@@ -115,17 +84,18 @@ class UserControllerTest {
     }
 
     @Test
-    void cambiarPassword_ShouldReturnSuccessMessage() throws Exception {
+    void getUserByFirebaseUid_ShouldReturnUser() throws Exception {
         // Given
-        doNothing().when(userService).cambiarPassword(eq(1L), any(ChangePasswordRequestDto.class));
+        when(userService.getUserByFirebaseUid("firebase-uid-123")).thenReturn(userResponseDto);
 
         // When & Then
-        mockMvc.perform(put("/api/users/1/password")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(changePasswordRequestDto)))
+        mockMvc.perform(get("/api/users/firebase/firebase-uid-123"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Contraseña actualizada exitosamente"));
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.correo").value("test@example.com"))
+                .andExpect(jsonPath("$.rol").value("USER"))
+                .andExpect(jsonPath("$.activo").value(1));
 
-        verify(userService, times(1)).cambiarPassword(eq(1L), any(ChangePasswordRequestDto.class));
+        verify(userService, times(1)).getUserByFirebaseUid("firebase-uid-123");
     }
 }

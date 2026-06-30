@@ -14,7 +14,7 @@ class UserTest {
         User user = new User();
         Long id = 1L;
         String correo = "test@example.com";
-        String password = "hashedPassword";
+        String firebaseUid = "firebase-uid-123";
         String rol = "USER";
         int activo = 1;
         LocalDateTime createdAt = LocalDateTime.now();
@@ -22,7 +22,7 @@ class UserTest {
         // When
         user.setId(id);
         user.setCorreo(correo);
-        user.setPassword(password);
+        user.setFirebaseUid(firebaseUid);
         user.setRol(rol);
         user.setActivo(activo);
         user.setCreatedAt(createdAt);
@@ -30,7 +30,7 @@ class UserTest {
         // Then
         assertEquals(id, user.getId());
         assertEquals(correo, user.getCorreo());
-        assertEquals(password, user.getPassword());
+        assertEquals(firebaseUid, user.getFirebaseUid());
         assertEquals(rol, user.getRol());
         assertEquals(activo, user.getActivo());
         assertEquals(createdAt, user.getCreatedAt());
@@ -42,14 +42,14 @@ class UserTest {
         User user1 = new User();
         user1.setId(1L);
         user1.setCorreo("test@example.com");
-        user1.setPassword("password");
+        user1.setFirebaseUid("firebase-uid-123");
         user1.setRol("USER");
         user1.setActivo(1);
 
         User user2 = new User();
         user2.setId(1L);
         user2.setCorreo("test@example.com");
-        user2.setPassword("password");
+        user2.setFirebaseUid("firebase-uid-123");
         user2.setRol("USER");
         user2.setActivo(1);
 
@@ -64,12 +64,12 @@ class UserTest {
         User user1 = new User();
         user1.setId(1L);
         user1.setCorreo("test@example.com");
-        user1.setPassword("password");
+        user1.setFirebaseUid("firebase-uid-123");
 
         User user2 = new User();
         user2.setId(1L);
         user2.setCorreo("test@example.com");
-        user2.setPassword("password");
+        user2.setFirebaseUid("firebase-uid-123");
 
         // When & Then
         assertEquals(user1.hashCode(), user2.hashCode());
@@ -81,7 +81,7 @@ class UserTest {
         User user = new User();
         user.setId(1L);
         user.setCorreo("test@example.com");
-        user.setPassword("password");
+        user.setFirebaseUid("firebase-uid-123");
         user.setRol("USER");
 
         // When
@@ -101,7 +101,7 @@ class UserTest {
         assertNotNull(user);
         assertNull(user.getId());
         assertNull(user.getCorreo());
-        assertNull(user.getPassword());
+        assertNull(user.getFirebaseUid());
         assertNull(user.getRol());
         assertNull(user.getCreatedAt());
     }

@@ -52,22 +52,4 @@ class GlobalExceptionHandlerTest {
         assertEquals(HttpStatus.CONFLICT.value(), response.getBody().getStatus());
         assertNotNull(response.getBody().getTimestamp());
     }
-
-    @Test
-    void handleInvalidCredentialsException_ShouldReturnUnauthorizedResponse() {
-        // Given
-        String errorMessage = "Credenciales inválidas";
-        InvalidCredentialsException exception = new InvalidCredentialsException(errorMessage);
-
-        // When
-        ResponseEntity<ErrorResponseDto> response = globalExceptionHandler.handleInvalidCredentialsException(exception);
-
-        // Then
-        assertNotNull(response);
-        assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(errorMessage, response.getBody().getMessage());
-        assertEquals(HttpStatus.UNAUTHORIZED.value(), response.getBody().getStatus());
-        assertNotNull(response.getBody().getTimestamp());
-    }
 }

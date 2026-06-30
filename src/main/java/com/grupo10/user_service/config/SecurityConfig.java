@@ -4,15 +4,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 /**
- * Configuración de seguridad y CORS del microservicio.
- *
- * <p>Define los beans de infraestructura de seguridad: la política CORS
- * para los endpoints de la API y el codificador de contraseñas BCrypt.</p>
+ * Configuración de CORS del microservicio.
  */
 @Configuration
 public class SecurityConfig {
@@ -39,19 +34,6 @@ public class SecurityConfig {
                         .maxAge(3600);
             }
         };
-    }
-
-    /**
-     * Registra el bean {@link PasswordEncoder} basado en BCrypt.
-     *
-     * <p>BCrypt aplica un factor de coste adaptativo que incrementa el tiempo de
-     * cómputo, dificultando ataques de fuerza bruta sobre los hashes almacenados.</p>
-     *
-     * @return instancia de {@link BCryptPasswordEncoder}
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
 }
